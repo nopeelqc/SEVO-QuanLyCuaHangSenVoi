@@ -241,6 +241,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    isolation: isolate;
     transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
@@ -257,7 +258,8 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -2;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .lop_phu_video {
@@ -267,7 +269,7 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(255, 255, 255, 0.15);
-    z-index: -1;
+    z-index: 1;
     transition: background 0.85s ease;
 }
 
@@ -313,36 +315,35 @@ body {
 .cum_nut_dau {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .nut_dieu_huong {
-    background-color: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    font-size: 15px;
     font-weight: 600;
-    color: #1f1f1f;
+    color: #111111;
     cursor: pointer;
-    padding: 10px 22px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    padding: 10px 24px;
+    border-radius: 999px;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
 }
 
 .nut_dieu_huong:hover {
+    background-color: rgba(0, 0, 0, 0.82);
     color: #ffffff;
-    background-color: #2b6cb0;
-    border-color: #2b6cb0;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(43, 108, 176, 0.25);
+    transform: translateY(-1px);
 }
 
 .noi_dung_gioi_thieu {
+    position: relative;
     text-align: center;
     color: #1c1c1c;
     padding: 20px 40px;
-    z-index: 1;
+    z-index: 3;
     transition: opacity 0.75s ease, transform 0.75s ease;
 }
 
