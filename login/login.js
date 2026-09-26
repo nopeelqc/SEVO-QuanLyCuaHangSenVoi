@@ -111,7 +111,7 @@ function chuyenSangTrangChu() {
     }
     manHinhXacThuc.classList.add('an_man_hinh');
     setTimeout(() => {
-        window.location.href = 'index.html';
+        window.location.href = '../index.html';
     }, 250);
 }
 

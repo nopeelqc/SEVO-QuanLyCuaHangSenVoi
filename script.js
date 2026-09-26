@@ -1,5 +1,7 @@
 if (!sessionStorage.getItem('da_dang_nhap')) {
-    window.location.replace('login.html');
+    const duongDanHienTai = window.location.pathname;
+    const duongDanLogin = duongDanHienTai.includes('/dashboard/') ? '../login/login.html' : 'login/login.html';
+    window.location.replace(duongDanLogin);
 }
 
 const thanhBen = document.getElementById('thanh_ben');
@@ -77,7 +79,7 @@ const duLieuMacDinh = {
     ],
     taiKhoan: [
         { ma: 'NV001', tenDN: 'admin', hoTen: 'Lương Quốc Cường', sdt: '0968000075', quyen: 'Admin', trangThai: 'Hoạt động' },
-        { ma: 'NV002', tenDN: 'nhanvien01', hoTen: 'Phạm Thu Hà', sdt: '0977123456', quyen: 'Nhân viên bán hàng', trangThai: 'Hoạt động' }
+        { ma: 'NV002', tenDN: 'nhanvien01', hoTen: 'Đỗ Minh Hiền', sdt: '0977123456', quyen: 'Nhân viên bán hàng', trangThai: 'Hoạt động' }
     ]
 };
 
@@ -93,5 +95,7 @@ function dinhDangTien(so) {
 
 document.getElementById('nut_dang_xuat_nhanh').addEventListener('click', () => {
     sessionStorage.removeItem('da_dang_nhap');
-    window.location.replace('login.html');
+    const duongDanHienTai = window.location.pathname;
+    const duongDanLogin = duongDanHienTai.includes('/dashboard/') ? '../login/login.html' : 'login/login.html';
+    window.location.replace(duongDanLogin);
 });
