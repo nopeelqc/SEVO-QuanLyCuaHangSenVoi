@@ -2,6 +2,7 @@ const manHinhXacThuc = document.getElementById('man_hinh_xac_thuc');
 const khungXacThuc = document.getElementById('khung_xac_thuc');
 const noiDungGioiThieu = document.getElementById('noi_dung_gioi_thieu');
 const lopPhuVideo = document.getElementById('lop_phu_video');
+const videoNen = document.getElementById('video_nen');
 
 const nutMoDangNhap = document.getElementById('nut_mo_dang_nhap');
 const nutMoDangKy = document.getElementById('nut_mo_dang_ky');
@@ -18,34 +19,44 @@ moTaGioiThieu.textContent = '';
 
 let viTriMoTa = 0;
 let dangXoaMoTa = false;
+let idHieuUngGo = null;
+let popupDangMo = false;
 
 function hieuUngGoMoTa() {
+    if (popupDangMo) return;
+
     if (!dangXoaMoTa) {
         moTaGioiThieu.textContent = noiDungMoTa.substring(0, viTriMoTa + 1);
         viTriMoTa++;
         if (viTriMoTa === noiDungMoTa.length) {
             dangXoaMoTa = true;
-            setTimeout(hieuUngGoMoTa, 1800);
+            idHieuUngGo = setTimeout(hieuUngGoMoTa, 1800);
             return;
         }
-        setTimeout(hieuUngGoMoTa, 55);
+        idHieuUngGo = setTimeout(hieuUngGoMoTa, 55);
     } else {
         moTaGioiThieu.textContent = noiDungMoTa.substring(0, viTriMoTa - 1);
         viTriMoTa--;
         if (viTriMoTa === 0) {
             dangXoaMoTa = false;
-            setTimeout(hieuUngGoMoTa, 500);
+            idHieuUngGo = setTimeout(hieuUngGoMoTa, 500);
             return;
         }
-        setTimeout(hieuUngGoMoTa, 30);
+        idHieuUngGo = setTimeout(hieuUngGoMoTa, 30);
     }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(hieuUngGoMoTa, 400);
+    idHieuUngGo = setTimeout(hieuUngGoMoTa, 400);
 });
 
 function moPopupXacThuc(loaiBieuMau) {
+    popupDangMo = true;
+    clearTimeout(idHieuUngGo);
+    if (videoNen && !videoNen.paused) {
+        videoNen.pause();
+    }
+
     khungXacThuc.classList.add('hien_popup');
     noiDungGioiThieu.classList.add('mo_di');
     lopPhuVideo.classList.add('lam_toi');
@@ -60,9 +71,16 @@ function moPopupXacThuc(loaiBieuMau) {
 }
 
 function dongPopupXacThuc() {
+    popupDangMo = false;
     khungXacThuc.classList.remove('hien_popup');
     noiDungGioiThieu.classList.remove('mo_di');
     lopPhuVideo.classList.remove('lam_toi');
+
+    if (videoNen && videoNen.paused) {
+        videoNen.play().catch(() => {});
+    }
+    clearTimeout(idHieuUngGo);
+    idHieuUngGo = setTimeout(hieuUngGoMoTa, 300);
 }
 
 nutMoDangNhap.addEventListener('click', () => {
@@ -88,10 +106,13 @@ chuyenSangDangNhap.addEventListener('click', () => {
 
 function chuyenSangTrangChu() {
     sessionStorage.setItem('da_dang_nhap', 'true');
+    if (videoNen) {
+        videoNen.pause();
+    }
     manHinhXacThuc.classList.add('an_man_hinh');
     setTimeout(() => {
         window.location.href = 'index.html';
-    }, 500);
+    }, 250);
 }
 
 bieuMauDangNhap.addEventListener('submit', (e) => {

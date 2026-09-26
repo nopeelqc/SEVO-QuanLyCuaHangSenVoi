@@ -12,7 +12,8 @@ body {
 .thanh_ben {
     width: 270px;
     background-color: #ffffff;
-    transition: width 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: width 0.25s ease;
+    will-change: width;
     display: flex;
     flex-direction: column;
     border-right: 1px solid #eaeaea;
@@ -34,7 +35,6 @@ body {
     justify-content: space-between;
     padding: 0 15px;
     border-bottom: 1px solid #eaeaea;
-    transition: border-color 0.3s ease;
 }
 
 .thanh_ben.da_thu_gon .dau_thanh_ben {
@@ -52,7 +52,7 @@ body {
 
 .anh_logo {
     width: 40px;
-    height: auto;
+    height: 40px;
     object-fit: contain;
     flex-shrink: 0;
     display: block;
@@ -151,7 +151,7 @@ body {
 }
 
 .chu_thich {
-    transition: opacity 0.2s ease, width 0.2s ease;
+    transition: opacity 0.2s ease;
     opacity: 1;
     font-weight: 500;
     font-size: 15px;
@@ -314,6 +314,7 @@ body {
     object-fit: cover;
     border: 2px solid #2b6cb0;
     background-color: transparent;
+    transform: translateZ(0);
 }
 
 .nut_dang_xuat_nhanh {

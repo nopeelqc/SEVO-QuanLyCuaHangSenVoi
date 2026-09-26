@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập - SEVO Cửa Hàng Sen Vòi</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preload" as="image" href="logo.png">
+    <link rel="preload" as="image" href="avt.png">
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
 <div class="man_hinh_xac_thuc" id="man_hinh_xac_thuc">
-    <video autoplay loop muted playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" class="video_nen">
+    <video autoplay loop muted playsinline preload="metadata" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" class="video_nen" id="video_nen">
         <source src="background.mp4" type="video/mp4">
     </video>
     <div class="lop_phu_video" id="lop_phu_video"></div>
 
     <div class="thanh_dieu_huong_dau">
         <div class="hop_logo_dau">
-            <img src="logo.png" alt="Logo" class="anh_logo_dau">
+            <img src="logo.png" alt="Logo" class="anh_logo_dau" width="60" height="60" decoding="async" fetchpriority="high">
             <span class="chu_logo_dau">SEVO</span>
         </div>
         <div class="cum_nut_dau">
@@ -34,7 +36,7 @@
     <div class="khung_xac_thuc" id="khung_xac_thuc">
         <button type="button" class="nut_dong_popup" id="nut_dong_popup">&times;</button>
         <div class="dau_xac_thuc">
-            <img src="logo.png" alt="Logo" class="logo_xac_thuc">
+            <img src="logo.png" alt="Logo" class="logo_xac_thuc" width="42" height="42" decoding="async">
             <h2>SEVO</h2>
         </div>
 

@@ -4,7 +4,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100vh;
     overflow: hidden;
-    background-color: #f8fafc;
+    background-color: #0f172a;
 }
 
 .man_hinh_xac_thuc {
@@ -18,7 +18,8 @@ body {
     justify-content: center;
     z-index: 2000;
     isolation: isolate;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    will-change: opacity;
 }
 
 .man_hinh_xac_thuc.an_man_hinh {
@@ -36,6 +37,7 @@ body {
     object-fit: cover;
     z-index: 0;
     pointer-events: none;
+    transform: translateZ(0);
 }
 
 .lop_phu_video {
@@ -46,11 +48,11 @@ body {
     height: 100%;
     background: rgba(255, 255, 255, 0.15);
     z-index: 1;
-    transition: background 0.85s ease;
+    transition: background-color 0.4s ease;
 }
 
 .lop_phu_video.lam_toi {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.55);
 }
 
 .thanh_dieu_huong_dau {
@@ -95,9 +97,7 @@ body {
 }
 
 .nut_dieu_huong {
-    background-color: rgba(0, 0, 0, 0.14);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.75);
     border: none;
     font-size: 15px;
     font-weight: 600;
@@ -105,11 +105,11 @@ body {
     cursor: pointer;
     padding: 10px 24px;
     border-radius: 999px;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .nut_dieu_huong:hover {
-    background-color: rgba(0, 0, 0, 0.82);
+    background-color: rgba(0, 0, 0, 0.85);
     color: #ffffff;
     transform: translateY(-1px);
 }
@@ -120,12 +120,13 @@ body {
     color: #1c1c1c;
     padding: 20px 40px;
     z-index: 3;
-    transition: opacity 0.75s ease, transform 0.75s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    will-change: opacity, transform;
 }
 
 .noi_dung_gioi_thieu.mo_di {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.96);
     pointer-events: none;
 }
 
@@ -164,22 +165,22 @@ body {
 
 .khung_xac_thuc {
     position: absolute;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
+    background: #ffffff;
     width: 100%;
     max-width: 400px;
     padding: 35px 30px;
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     z-index: 10;
-    transform: translateY(-130vh);
+    transform: translate3d(0, -120vh, 0);
     opacity: 0;
     pointer-events: none;
-    transition: transform 1.15s cubic-bezier(0.19, 1, 0.22, 1) 0.12s, opacity 0.9s ease 0.12s;
+    transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.45s ease;
+    will-change: transform, opacity;
 }
 
 .khung_xac_thuc.hien_popup {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
     pointer-events: auto;
 }

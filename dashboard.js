@@ -8,13 +8,19 @@ function veBangDieuKhien() {
     document.getElementById('tk_ton_kho').textContent = tongTon;
     document.getElementById('tk_khach_hang').textContent = csdl.khachHang.length;
 
+    const mapSanPham = new Map(csdl.sanPham.map(sp => [sp.ma, sp]));
+    const mapKhachHang = new Map(csdl.khachHang.map(kh => [kh.ma, kh]));
+
     const dsNgay = ['2026-09-19', '2026-09-20', '2026-09-21', '2026-09-22', '2026-09-23', '2026-09-24', '2026-09-25'];
     const doanhThuMacDinh7Ngay = [1250000, 3630000, 1960000, 3150000, 1500000, 4500000, 2650000];
 
+    const doanhThuTheoNgay = {};
+    hdHopLe.forEach(h => {
+        doanhThuTheoNgay[h.ngay] = (doanhThuTheoNgay[h.ngay] || 0) + h.tongTien;
+    });
+
     const duLieu7Ngay = dsNgay.map((ngay, i) => {
-        const tongTheoNgay = hdHopLe
-            .filter(h => h.ngay === ngay)
-            .reduce((t, h) => t + h.tongTien, 0);
+        const tongTheoNgay = doanhThuTheoNgay[ngay] || 0;
         return {
             nhan: ngay.slice(8, 10) + '/' + ngay.slice(5, 7),
             giaTri: tongTheoNgay > 0 ? tongTheoNgay : doanhThuMacDinh7Ngay[i]
@@ -60,26 +66,25 @@ function veBangDieuKhien() {
         `;
     }
 
+    const demTheoDM = {};
+    hdHopLe.forEach(hd => {
+        hd.chiTiet.forEach(ct => {
+            const sp = mapSanPham.get(ct.maSP);
+            if (sp) {
+                demTheoDM[sp.maDM] = (demTheoDM[sp.maDM] || 0) + Number(ct.soLuong);
+            }
+        });
+    });
+
     const thongKeBanChay = [
         { ten: 'Sen tắm', maDM: 'DM01', soLuongGoc: 14 },
         { ten: 'Vòi lavabo', maDM: 'DM02', soLuongGoc: 10 },
         { ten: 'Vòi bếp', maDM: 'DM03', soLuongGoc: 7 },
         { ten: 'Phụ kiện phòng tắm', maDM: 'DM04', soLuongGoc: 5 }
-    ].map(muc => {
-        let soLuongHD = 0;
-        hdHopLe.forEach(hd => {
-            hd.chiTiet.forEach(ct => {
-                const sp = csdl.sanPham.find(s => s.ma === ct.maSP);
-                if (sp && sp.maDM === muc.maDM) {
-                    soLuongHD += Number(ct.soLuong);
-                }
-            });
-        });
-        return {
-            ten: muc.ten,
-            soLuong: muc.soLuongGoc + soLuongHD
-        };
-    });
+    ].map(muc => ({
+        ten: muc.ten,
+        soLuong: muc.soLuongGoc + (demTheoDM[muc.maDM] || 0)
+    }));
 
     const maxSL = Math.max(...thongKeBanChay.map(m => m.soLuong), 1);
     const khungBanChay = document.getElementById('danh_sach_ban_chay');
@@ -101,8 +106,8 @@ function veBangDieuKhien() {
     }
 
     const bangGD = document.getElementById('bang_giao_dich_gan_day');
-    bangGD.innerHTML = csdl.hoaDon.slice().reverse().slice(0, 6).map(hd => {
-        const kh = csdl.khachHang.find(k => k.ma === hd.maKH);
+    bangGD.innerHTML = csdl.hoaDon.slice(-6).reverse().map(hd => {
+        const kh = mapKhachHang.get(hd.maKH);
         const lopTT = hd.trangThai === 'Đã thanh toán' ? 'tt_thanh_cong' : 'tt_da_huy';
         return `
             <tr>
