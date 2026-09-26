@@ -1,0 +1,114 @@
+.luoi_the_thong_ke {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.muc_thong_ke {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 16px;
+    border-right: 1px solid #f1f5f9;
+}
+
+.muc_thong_ke:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.nhan_the {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.gia_tri_the {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.phu_chu_the {
+    font-size: 12px;
+    color: #2b6cb0;
+    font-weight: 500;
+}
+
+.luoi_hai_cot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+
+.phan_bang {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dau_phan_bang h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.boc_bang {
+    overflow-x: auto;
+}
+
+.bang_du_lieu {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.bang_du_lieu th,
+.bang_du_lieu td {
+    padding: 11px 12px;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bang_du_lieu th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.bang_du_lieu tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.nhan_trang_thai {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tt_thanh_cong {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.tt_canh_bao {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.tt_da_huy {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.chu_giua {
+    text-align: center;
+    color: #64748b;
+}
