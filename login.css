@@ -18,7 +18,7 @@ body {
     justify-content: center;
     z-index: 2000;
     isolation: isolate;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
     will-change: opacity;
 }
 
@@ -48,7 +48,7 @@ body {
     height: 100%;
     background: rgba(255, 255, 255, 0.15);
     z-index: 1;
-    transition: background-color 0.4s ease;
+    transition: background-color 0.85s ease;
 }
 
 .lop_phu_video.lam_toi {
@@ -87,7 +87,6 @@ body {
     font-weight: 700;
     color: #1f1f1f;
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 8px rgba(255, 255, 255, 0.8);
 }
 
 .cum_nut_dau {
@@ -105,7 +104,7 @@ body {
     cursor: pointer;
     padding: 10px 24px;
     border-radius: 999px;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
 }
 
 .nut_dieu_huong:hover {
@@ -120,13 +119,13 @@ body {
     color: #1c1c1c;
     padding: 20px 40px;
     z-index: 3;
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.75s ease, transform 0.75s ease;
     will-change: opacity, transform;
 }
 
 .noi_dung_gioi_thieu.mo_di {
     opacity: 0;
-    transform: scale(0.96);
+    transform: scale(0.95);
     pointer-events: none;
 }
 
@@ -135,7 +134,6 @@ body {
     font-weight: 500;
     margin: 0 0 14px 0;
     letter-spacing: -0.5px;
-    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.8);
 }
 
 @keyframes nhap_nhay_con_tro {
@@ -152,7 +150,6 @@ body {
     margin: 0;
     color: #2d3748;
     font-weight: 500;
-    text-shadow: 0 1px 8px rgba(255, 255, 255, 0.8);
     min-height: 1.5em;
 }
 
@@ -172,10 +169,10 @@ body {
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     z-index: 10;
-    transform: translate3d(0, -120vh, 0);
+    transform: translate3d(0, -130vh, 0);
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.55s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.45s ease;
+    transition: transform 1.15s cubic-bezier(0.19, 1, 0.22, 1) 0.12s, opacity 0.9s ease 0.12s;
     will-change: transform, opacity;
 }
 
