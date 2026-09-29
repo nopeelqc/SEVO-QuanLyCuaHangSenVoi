@@ -1,3 +1,20 @@
+.dong_phu_tieu_de {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ngan_cach_thoi_gian {
+    color: #cbd5e1;
+}
+
+.thoi_gian_thuc {
+    color: #2b6cb0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
 .luoi_the_thong_ke {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

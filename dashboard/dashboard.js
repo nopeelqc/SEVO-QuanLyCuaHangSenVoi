@@ -1,17 +1,48 @@
+function layChuoiNgay(dt) {
+    const nam = dt.getFullYear();
+    const thang = String(dt.getMonth() + 1).padStart(2, '0');
+    const ngay = String(dt.getDate()).padStart(2, '0');
+    return `${nam}-${thang}-${ngay}`;
+}
+
+function capNhatThoiGianThuc() {
+    const el = document.getElementById('thoi_gian_thuc');
+    if (!el) return;
+    const hienTai = new Date();
+    const gio = String(hienTai.getHours()).padStart(2, '0');
+    const phut = String(hienTai.getMinutes()).padStart(2, '0');
+    const giay = String(hienTai.getSeconds()).padStart(2, '0');
+    const ngay = String(hienTai.getDate()).padStart(2, '0');
+    const thang = String(hienTai.getMonth() + 1).padStart(2, '0');
+    const nam = hienTai.getFullYear();
+    el.textContent = `${ngay}/${thang}/${nam} - ${gio}:${phut}:${giay}`;
+}
+
 function veBangDieuKhien() {
+    const homNay = new Date();
+    const chuoiHomNay = layChuoiNgay(homNay);
+
+    const hdHomNay = csdl.hoaDon.filter(h => h.ngay === chuoiHomNay);
+    const dsHoaDonHomNay = hdHomNay.length > 0 ? hdHomNay : csdl.hoaDon;
+    const hdHopLeHomNay = dsHoaDonHomNay.filter(h => h.trangThai === 'Đã thanh toán');
+
     const hdHopLe = csdl.hoaDon.filter(h => h.trangThai === 'Đã thanh toán');
-    const tongDoanhThu = hdHopLe.reduce((t, h) => t + h.tongTien, 0);
+    const tongDoanhThuHomNay = hdHopLeHomNay.reduce((t, h) => t + h.tongTien, 0);
     const tongTon = csdl.sanPham.reduce((t, s) => t + Number(s.tonKho), 0);
 
-    document.getElementById('tk_doanh_thu').textContent = dinhDangTien(tongDoanhThu);
-    document.getElementById('tk_so_hoa_don').textContent = csdl.hoaDon.length;
+    document.getElementById('tk_doanh_thu').textContent = dinhDangTien(tongDoanhThuHomNay);
+    document.getElementById('tk_so_hoa_don').textContent = dsHoaDonHomNay.length;
     document.getElementById('tk_ton_kho').textContent = tongTon;
     document.getElementById('tk_khach_hang').textContent = csdl.khachHang.length;
 
     const mapSanPham = new Map(csdl.sanPham.map(sp => [sp.ma, sp]));
     const mapKhachHang = new Map(csdl.khachHang.map(kh => [kh.ma, kh]));
 
-    const dsNgay = ['2026-09-19', '2026-09-20', '2026-09-21', '2026-09-22', '2026-09-23', '2026-09-24', '2026-09-25'];
+    const dsNgay = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(homNay);
+        d.setDate(homNay.getDate() - (6 - i));
+        return layChuoiNgay(d);
+    });
     const doanhThuMacDinh7Ngay = [1250000, 3630000, 1960000, 3150000, 1500000, 4500000, 2650000];
 
     const doanhThuTheoNgay = {};
@@ -136,4 +167,13 @@ function veBangDieuKhien() {
     }
 }
 
+capNhatThoiGianThuc();
+setInterval(capNhatThoiGianThuc, 1000);
 veBangDieuKhien();
+
+window.addEventListener('storage', () => {
+    if (typeof taiDuLieu === 'function') {
+        taiDuLieu();
+    }
+    veBangDieuKhien();
+});
