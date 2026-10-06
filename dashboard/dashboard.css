@@ -205,7 +205,41 @@
     color: #b91c1c;
 }
 
+.tt_dang_xu_ly {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
 .chu_giua {
     text-align: center;
     color: #64748b;
+}
+
+@media (max-width: 1024px) {
+    .luoi_the_thong_ke {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .luoi_hai_cot {
+        grid-template-columns: 1fr;
+    }
+    .muc_thong_ke:nth-child(2) {
+        border-right: none;
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .luoi_the_thong_ke {
+        grid-template-columns: 1fr;
+    }
+    .muc_thong_ke {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 16px;
+    }
+    .muc_thong_ke:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
 }

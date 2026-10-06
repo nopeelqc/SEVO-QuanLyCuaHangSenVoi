@@ -31,8 +31,8 @@ const duLieuMacDinh = {
         { ma: 'SP005', ten: 'Vắt khăn giàn Inox 304 cao cấp SEVO-A1', maDM: 'DM04', donVi: 'Bộ', giaNhap: 320000, giaBan: 550000, tonKho: 30, baoHanh: 12 }
     ],
     khachHang: [
-        { ma: 'KH001', ten: 'Nguyễn Văn Hoàng', sdt: '0912345678', diaChi: '259 Vĩnh Hưng, Hoàng Mai, Hà Nội' },
-        { ma: 'KH002', ten: 'Trần Thị Mai Hương', sdt: '0987654321', diaChi: 'KĐT Times City, Hai Bà Trưng, Hà Nội' },
+        { ma: 'KH001', ten: 'Lương Quốc C', sdt: '0912345678', diaChi: '259 Vĩnh Hưng, Hoàng Mai, Hà Nội' },
+        { ma: 'KH002', ten: 'Lương Quốc Cường', sdt: '0987654321', diaChi: 'KĐT Times City, Hai Bà Trưng, Hà Nội' },
         { ma: 'KH003', ten: 'Lê Minh Tuấn', sdt: '0905112233', diaChi: '124 Minh Khai, Hai Bà Trưng, Hà Nội' }
     ],
     nhaCungCap: [

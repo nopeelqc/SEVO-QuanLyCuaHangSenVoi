@@ -37,29 +37,30 @@ function veBangDieuKhien() {
 
     const mapSanPham = new Map(csdl.sanPham.map(sp => [sp.ma, sp]));
     const mapKhachHang = new Map(csdl.khachHang.map(kh => [kh.ma, kh]));
+    const mapDanhMuc = new Map(csdl.danhMuc.map(dm => [dm.ma, dm]));
 
     const dsNgay = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(homNay);
         d.setDate(homNay.getDate() - (6 - i));
         return layChuoiNgay(d);
     });
-    const doanhThuMacDinh7Ngay = [1250000, 3630000, 1960000, 3150000, 1500000, 4500000, 2650000];
 
     const doanhThuTheoNgay = {};
     hdHopLe.forEach(h => {
         doanhThuTheoNgay[h.ngay] = (doanhThuTheoNgay[h.ngay] || 0) + h.tongTien;
     });
 
-    const duLieu7Ngay = dsNgay.map((ngay, i) => {
+    const duLieu7Ngay = dsNgay.map((ngay) => {
         const tongTheoNgay = doanhThuTheoNgay[ngay] || 0;
         return {
             nhan: ngay.slice(8, 10) + '/' + ngay.slice(5, 7),
-            giaTri: tongTheoNgay > 0 ? tongTheoNgay : doanhThuMacDinh7Ngay[i]
+            giaTri: tongTheoNgay
         };
     });
 
     const maxDT = Math.max(...duLieu7Ngay.map(d => d.giaTri), 1);
-    const chieuRong = 500;
+    const khungBieuDo = document.getElementById('bieu_do_doanh_thu');
+    const chieuRong = khungBieuDo && khungBieuDo.clientWidth > 0 ? khungBieuDo.clientWidth - 40 : 500;
     const chieuCao = 115;
     const leTren = 22;
     const leDuoi = 10;
@@ -74,7 +75,6 @@ function veBangDieuKhien() {
     const chuoiDiem = toaDoDiem.map(p => `${p.x},${p.y}`).join(' ');
     const chuoiVung = `${toaDoDiem[0].x},${chieuCao} ${chuoiDiem} ${toaDoDiem[toaDoDiem.length - 1].x},${chieuCao}`;
 
-    const khungBieuDo = document.getElementById('bieu_do_doanh_thu');
     if (khungBieuDo) {
         khungBieuDo.innerHTML = `
             <svg viewBox="0 0 ${chieuRong} ${chieuCao}" class="svg_bieu_do">
@@ -87,8 +87,10 @@ function veBangDieuKhien() {
                 <polygon points="${chuoiVung}" fill="url(#mau_nen_bieu_do)" />
                 <polyline fill="none" stroke="#2b6cb0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="${chuoiDiem}" />
                 ${toaDoDiem.map(p => `
-                    <circle cx="${p.x}" cy="${p.y}" r="4" fill="#ffffff" stroke="#2b6cb0" stroke-width="2.5" />
-                    <text x="${p.x}" y="${p.y - 9}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">${(p.giaTri / 1000000).toFixed(1)}tr</text>
+                    <circle cx="${p.x}" cy="${p.y}" r="4" fill="#ffffff" stroke="#2b6cb0" stroke-width="2.5">
+                        <title>${dinhDangTien(p.giaTri)}</title>
+                    </circle>
+                    <text x="${p.x}" y="${p.y - 9}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">${p.giaTri > 0 ? (p.giaTri / 1000000).toFixed(1) + 'tr' : '0'}</text>
                 `).join('')}
             </svg>
             <div class="nhan_ngay_bieu_do">
@@ -107,15 +109,20 @@ function veBangDieuKhien() {
         });
     });
 
-    const thongKeBanChay = [
-        { ten: 'Sen tắm', maDM: 'DM01', soLuongGoc: 14 },
-        { ten: 'Vòi lavabo', maDM: 'DM02', soLuongGoc: 10 },
-        { ten: 'Vòi bếp', maDM: 'DM03', soLuongGoc: 7 },
-        { ten: 'Phụ kiện phòng tắm', maDM: 'DM04', soLuongGoc: 5 }
-    ].map(muc => ({
-        ten: muc.ten,
-        soLuong: muc.soLuongGoc + (demTheoDM[muc.maDM] || 0)
-    }));
+    const dsTheoDM = Object.keys(demTheoDM).map(maDM => {
+        const dm = mapDanhMuc.get(maDM);
+        return {
+            ten: dm ? dm.ten : maDM,
+            soLuong: demTheoDM[maDM]
+        };
+    });
+
+    dsTheoDM.sort((a, b) => b.soLuong - a.soLuong);
+    const thongKeBanChay = dsTheoDM.slice(0, 4);
+
+    if (thongKeBanChay.length === 0) {
+        thongKeBanChay.push({ ten: 'Chưa có dữ liệu', soLuong: 0 });
+    }
 
     const maxSL = Math.max(...thongKeBanChay.map(m => m.soLuong), 1);
     const khungBanChay = document.getElementById('danh_sach_ban_chay');
@@ -137,19 +144,28 @@ function veBangDieuKhien() {
     }
 
     const bangGD = document.getElementById('bang_giao_dich_gan_day');
-    bangGD.innerHTML = csdl.hoaDon.slice(-6).reverse().map(hd => {
-        const kh = mapKhachHang.get(hd.maKH);
-        const lopTT = hd.trangThai === 'Đã thanh toán' ? 'tt_thanh_cong' : 'tt_da_huy';
-        return `
-            <tr>
-                <td><strong>${hd.ma}</strong></td>
-                <td>${kh ? kh.ten : 'Khách lẻ'}</td>
-                <td>${hd.ngay}</td>
-                <td>${dinhDangTien(hd.tongTien)}</td>
-                <td><span class="nhan_trang_thai ${lopTT}">${hd.trangThai}</span></td>
-            </tr>
-        `;
-    }).join('');
+    const dsGiaoDich = csdl.hoaDon.slice(-6).reverse();
+
+    if (dsGiaoDich.length === 0) {
+        bangGD.innerHTML = `<tr><td colspan="5" class="chu_giua">Chưa có giao dịch nào.</td></tr>`;
+    } else {
+        bangGD.innerHTML = dsGiaoDich.map(hd => {
+            const kh = mapKhachHang.get(hd.maKH);
+            let lopTT = 'tt_dang_xu_ly';
+            if (hd.trangThai === 'Đã thanh toán') lopTT = 'tt_thanh_cong';
+            if (hd.trangThai === 'Đã hủy') lopTT = 'tt_da_huy';
+            
+            return `
+                <tr>
+                    <td><strong>${hd.ma}</strong></td>
+                    <td>${kh ? kh.ten : 'Khách lẻ'}</td>
+                    <td>${hd.ngay}</td>
+                    <td>${dinhDangTien(hd.tongTien)}</td>
+                    <td><span class="nhan_trang_thai ${lopTT}">${hd.trangThai}</span></td>
+                </tr>
+            `;
+        }).join('');
+    }
 
     const bangCanhBao = document.getElementById('bang_canh_bao_ton');
     const spSapHet = csdl.sanPham.filter(s => s.tonKho <= 5);
