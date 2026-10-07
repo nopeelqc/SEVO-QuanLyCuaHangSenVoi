@@ -117,7 +117,30 @@ function chuyenSangTrangChu() {
 
 bieuMauDangNhap.addEventListener('submit', (e) => {
     e.preventDefault();
-    chuyenSangTrangChu();
+    
+    const ten_dn = document.getElementById('ten_dang_nhap').value;
+    const mat_khau = document.getElementById('mat_khau_dang_nhap').value;
+
+    fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ten_dn, mat_khau })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            sessionStorage.setItem('da_dang_nhap', 'true');
+            sessionStorage.setItem('thong_tin_user', JSON.stringify(data.user));
+            chuyenSangTrangChu();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        alert('Không thể kết nối đến máy chủ!');
+    });
 });
 
 bieuMauDangKy.addEventListener('submit', (e) => {
