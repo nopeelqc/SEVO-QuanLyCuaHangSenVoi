@@ -1,56 +1,56 @@
+require('dotenv').config(); 
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
+const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',      
-    password: '',      
-    database: 'sevo_db'
-});
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-db.connect((err) => {
-    if (err) {
-        console.error('Lỗi kết nối MySQL:', err.message);
-        return;
+app.get('/api/taikhoan', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('tai_khoan')
+            .select('*');
+
+        if (error) throw error;
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    console.log('Đã kết nối thành công với MySQL (sevo_db)!');
 });
 
-app.get('/api/taikhoan', (req, res) => {
-    const sql = 'SELECT * FROM tai_khoan';
-    db.query(sql, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(results);
-    });
-});
-
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { ten_dn, mat_khau } = req.body;
-    const sql = 'SELECT * FROM tai_khoan WHERE ten_dn = ? AND mat_khau = ?';
-    
-    db.query(sql, [ten_dn, mat_khau], (err, results) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Lỗi server' });
-        }
-        if (results.length > 0) {
-            res.json({ success: true, user: results[0] });
+
+    try {
+        const { data, error } = await supabase
+            .from('tai_khoan')
+            .select('*')
+            .eq('ten_dn', ten_dn)
+            .eq('mat_khau', mat_khau);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+            res.json({ success: true, user: data[0] });
         } else {
             res.status(401).json({ success: false, message: 'Sai tài khoản hoặc mật khẩu' });
         }
-    });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Lỗi server' });
+    }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.get('/', (req, res) => {
-    res.send('Server Backend đang hoạt động ');
+    res.send('Server Backend SEVO đang hoạt động với Supabase');
 });
+
 app.listen(PORT, () => {
-    console.log(`Server Backend đang chạy tại http://localhost:${PORT}`);
+    console.log(` Đang chạy tại http://localhost:${PORT}`);
 });
